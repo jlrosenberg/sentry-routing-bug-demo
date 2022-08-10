@@ -1,17 +1,29 @@
+import * as Sentry from '@sentry/react';
+import { BrowserTracing } from '@sentry/tracing';
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import ReactDOM from 'react-dom';
+import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType } from 'react-router-dom';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+import { App } from './App';
+
+Sentry.init({
+  dsn: 'https://f1b056337f764d20babbdd0756bacd13@o424597.ingest.sentry.io/6638353',
+  integrations: [
+    new BrowserTracing({
+      routingInstrumentation: Sentry.reactRouterV6Instrumentation(
+        React.useEffect,
+        useLocation,
+        useNavigationType,
+        createRoutesFromChildren,
+        matchRoutes
+      )
+    })
+  ],
+  environment: window.location.host,
+  tracesSampleRate: 1.0
+});
+
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

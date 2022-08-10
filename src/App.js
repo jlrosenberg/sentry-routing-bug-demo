@@ -1,25 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import * as Sentry from '@sentry/react';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
 
-export default App;
+const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
+
+export const App = () => (
+  <BrowserRouter>
+    <SentryRoutes>
+      <Route element={<div>Edit Page</div>} path="foo/:barId/edit" />
+      <Route element={<div>View Page</div>} path="foo/:barId" />
+    </SentryRoutes>
+  </BrowserRouter>
+);
