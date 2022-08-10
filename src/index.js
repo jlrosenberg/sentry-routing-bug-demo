@@ -7,7 +7,7 @@ import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType }
 import { App } from './App';
 
 Sentry.init({
-  dsn: 'https://f1b056337f764d20babbdd0756bacd13@o424597.ingest.sentry.io/6638353',
+  dsn: '<obfuscate dsn>',
   integrations: [
     new BrowserTracing({
       routingInstrumentation: Sentry.reactRouterV6Instrumentation(
